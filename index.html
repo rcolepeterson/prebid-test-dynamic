@@ -72,32 +72,13 @@
       googletag.cmd.push(function () {
         bottomSlot = googletag.defineSlot('/19968336/header-bid-tag-0', [[300, 250]], 'div-prebid-test-slot-2').addService(googletag.pubads());
 
-        /*
-        slot1 = googletag.defineSlot('/19968336/header-bid-tag-0', [[300, 250]], 'div-1')*/
+        googletag.display( "div-prebid-test-slot-2" );
 
         googletag.pubads().enableSingleRequest();
         googletag.pubads().disableInitialLoad();
         googletag.pubads().enableSingleRequest();
         googletag.enableServices();
-       
       });
-
-      /*
-      var adUnits = [{
-                      code: '/19968336/header-bid-tag-0',
-                      mediaTypes: {
-                          banner: {
-                              sizes: sizes
-                          }
-                      },
-                      bids: [{
-                          bidder: 'appnexus',
-                          params: {
-                              placementId: 13144370
-                          }
-                      }]
-                  }];*/
-
       pbjs.que.push(function () {
         var adUnit2 = [{
           code: '/19968336/header-bid-tag-0',
@@ -125,6 +106,7 @@
           },
           adUnitCodes: ['div-prebid-test-slot-2']  // the magic -- run the auction only for the new div
         });
+        
         // Load GPT when timeout is reached.
         //setTimeout(initAdserver, PREBID_TIMEOUT);
       });
@@ -144,7 +126,6 @@
       googletag.cmd.push(function () {
         googletag.display('div-1');
       });
-
     </script>
   </div>
 
