@@ -9,6 +9,7 @@
       [300, 250]
     ];
     var PREBID_TIMEOUT = 1000;
+    var FAILSAFE_TIMEOUT = 3000;
 
     var googletag = googletag || {};
     googletag.cmd = googletag.cmd || [];
@@ -16,12 +17,77 @@
     var pbjs = pbjs || {};
     pbjs.que = pbjs.que || [];
 
-    var divQueue = [];
+    var adUnits = [
+    {
+        code: '/19968336/header-bid-tag-0',
+        mediaTypes: {
+            banner: {
+                sizes: sizes
+            }
+        },
+        bids: [
+          {
+            bidder: 'appnexus',
+            params: {
+                placementId: 13859591
+            }
+          },
+          {
+            bidder: 'rubicon',
+            params: {
+                accountId: "17104",          //String - required
+                siteId: "155312",             //String - required
+                zoneId: "1040446",           //String - required
+            } 
+          }
+          ]
+        }];
+
+    //
+    var googletag = googletag || {};
+            googletag.cmd = googletag.cmd || [];
+            googletag.cmd.push(function() {
+                googletag.pubads().disableInitialLoad();
+            });
+
+            var pbjs = pbjs || {};
+            pbjs.que = pbjs.que || [];
+
+            pbjs.que.push(function() {
+                pbjs.addAdUnits(adUnits);
+                pbjs.requestBids({
+                    bidsBackHandler: initAdserver,
+                    timeout: PREBID_TIMEOUT
+                });
+            });
+
+            function initAdserver() {
+                if (pbjs.initAdserverSet) return;
+                pbjs.initAdserverSet = true;
+                googletag.cmd.push(function() {
+                    pbjs.que.push(function() {
+                        pbjs.setTargetingForGPTAsync();
+                        googletag.pubads().refresh();
+                    });
+                });
+            }
+            // in case PBJS doesn't load
+            setTimeout(function() {
+                initAdserver();
+            }, FAILSAFE_TIMEOUT);
+
+            googletag.cmd.push(function() {
+                googletag.defineSlot('/19968336/header-bid-tag-0', sizes, 'div-1').addService(googletag.pubads());
+                googletag.pubads().enableSingleRequest();
+                googletag.enableServices();
+            });
+    //
 
     function dynamicDiv(content) {
-      console.log('dynamic div v1.2');
+      console.log('dynamic div v1.3');
       var bottomSlot;
       var divId = `${content.getAttribute('rel')}-${+new Date()}`;
+      
       // dynamically create div
       var newDiv = document.createElement("div");
       newDiv.id = divId;
@@ -65,6 +131,17 @@
 </head>
 
 <body>
+    <h5>Div-1</h5>
+    <div id='div-1'>
+        <script type='text/javascript'>
+            googletag.cmd.push(function() {
+                googletag.display('div-1');
+            });
+
+        </script>
+    </div>
+
+    <br>
   <h3>Dynamic Ad Unit Prebid Refresh Example</h3>
   <p><button rel="content-1" onclick="dynamicDiv(this)">Dynamically add Ad Unit and refresh</button></p>
   <p><button rel="content-2" onclick="dynamicDiv(this)">Dynamically add Ad Unit and refresh</button></p>
