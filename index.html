@@ -16,53 +16,8 @@
     var pbjs = pbjs || {};
     pbjs.que = pbjs.que || [];
 
-    // var adUnits = [{
-    //   code: '/19968336/header-bid-tag-0',
-    //   mediaTypes: {
-    //     banner: {
-    //       sizes: sizes
-    //     }
-    //   },
-    //   bids: [{
-    //     bidder: 'appnexus',
-    //     params: {
-    //       placementId: 13144370
-    //     }
-    //   }]
-    // }];
-
-    // pbjs.que.push(function () {
-    //   pbjs.addAdUnits(adUnits);
-    // });
-
-  </script>
-
-  <script>
-    // var slot1;
-    // googletag.cmd.push(function () {
-    //   slot1 = googletag.defineSlot('/19968336/header-bid-tag-0', [[300, 250]], 'div-1')
-    //     .addService(googletag.pubads());
-    //   googletag.pubads().disableInitialLoad();
-    //   googletag.pubads().enableSingleRequest();
-    //   googletag.enableServices();
-    // });
-
-    // function refreshBid() {
-    //   pbjs.que.push(function () {
-    //     pbjs.requestBids({
-    //       timeout: PREBID_TIMEOUT,
-    //       adUnitCodes: ['/19968336/header-bid-tag-0'],
-    //       bidsBackHandler: function () {
-    //         pbjs.setTargetingForGPTAsync(['/19968336/header-bid-tag-0']);
-    //         googletag.pubads().refresh([slot1]);
-    //       }
-    //     });
-    //   });
-    // }
-
-    //
     function dynamicDiv() {
-      console.log('dynamic div v1.0');
+      console.log('dynamic div v1.1');
       var bottomSlot;
       // dynamically create div
       var newDiv = document.createElement("div");
@@ -72,11 +27,11 @@
       googletag.cmd.push(function () {
         bottomSlot = googletag.defineSlot('/19968336/header-bid-tag-0', [[300, 250]], 'div-prebid-test-slot-2').addService(googletag.pubads());
 
-        
+
         googletag.pubads().enableSingleRequest();
         googletag.pubads().disableInitialLoad();
         googletag.enableServices();
-        googletag.display( "div-prebid-test-slot-2" );
+        googletag.display("div-prebid-test-slot-2");
       });
       pbjs.que.push(function () {
         var adUnit2 = [{
@@ -95,52 +50,23 @@
         }];
 
         pbjs.addAdUnits(adUnit2);   // won't be called except on button press
-
-/*
- // function refreshBid() {
-    //   pbjs.que.push(function () {
-    //     pbjs.requestBids({
-    //       timeout: PREBID_TIMEOUT,
-    //       adUnitCodes: ['/19968336/header-bid-tag-0'],
-    //       bidsBackHandler: function () {
-    //         pbjs.setTargetingForGPTAsync(['/19968336/header-bid-tag-0']);
-    //         googletag.pubads().refresh([slot1]);
-    //       }
-    //     });
-    //   });
-    // }*/
-
         pbjs.requestBids({
           timeout: PREBID_TIMEOUT,
           bidsBackHandler: function (bidResponses) {
-            //initAdserver();
             pbjs.setTargetingForGPTAsync(['/19968336/header-bid-tag-0']);
             googletag.pubads().refresh([bottomSlot]);
           },
           adUnitCodes: ['/19968336/header-bid-tag-0']  // the magic -- run the auction only for the new div
         });
-        
-        // Load GPT when timeout is reached.
-        //setTimeout(initAdserver, PREBID_TIMEOUT);
       });
     }
-            //
-
   </script>
 </head>
 
 <body>
   <h1>Individual Ad Unit Refresh Example</h1>
   <h5>Div-1</h5>
-  <p><button onclick="refreshBid()">Refresh Ad Unit</button></p>
   <p><button onclick="dynamicDiv()">Dynamically add Ad Unit and refresh</button></p>
-  <!-- <div id='div-1'>
-    <script type='text/javascript'>
-      googletag.cmd.push(function () {
-        googletag.display('div-1');
-      });
-    </script>
-  </div> -->
 
 </body>
 
