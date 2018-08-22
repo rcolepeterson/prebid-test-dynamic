@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Prebid Ad Unit Refresh Example</title>
+  <title>Dynamic Prebid Ad Unit Refresh Example</title>
   <script async src="//www.googletagservices.com/tag/js/gpt.js"></script>
   <script async src="//acdn.adnxs.com/prebid/not-for-prod/1/prebid.js"></script>
   <script>
@@ -16,22 +16,22 @@
     var pbjs = pbjs || {};
     pbjs.que = pbjs.que || [];
 
-    function dynamicDiv() {
-      console.log('dynamic div v1.1');
+    function dynamicDiv(content) {
+      console.log('dynamic div v1.2');
       var bottomSlot;
+      var divId = content.getAttribute('rel');
+      console.log('dynamic div name', divId);
       // dynamically create div
       var newDiv = document.createElement("div");
-      newDiv.id = "div-prebid-test-slot-2";
+      newDiv.id = divId;
       document.body.appendChild(newDiv);
 
       googletag.cmd.push(function () {
-        bottomSlot = googletag.defineSlot('/19968336/header-bid-tag-0', [[300, 250]], 'div-prebid-test-slot-2').addService(googletag.pubads());
-
-
+        bottomSlot = googletag.defineSlot('/19968336/header-bid-tag-0', [[300, 250]], divId).addService(googletag.pubads());
         googletag.pubads().enableSingleRequest();
         googletag.pubads().disableInitialLoad();
         googletag.enableServices();
-        googletag.display("div-prebid-test-slot-2");
+        googletag.display(divId);
       });
       pbjs.que.push(function () {
         var adUnit2 = [{
@@ -64,10 +64,10 @@
 </head>
 
 <body>
-  <h1>Individual Ad Unit Refresh Example</h1>
-  <h5>Div-1</h5>
-  <p><button onclick="dynamicDiv()">Dynamically add Ad Unit and refresh</button></p>
-
+  <h3>Dynamic Ad Unit Prebid Refresh Example</h3>
+  <p><button rel="content-1" onclick="dynamicDiv(this)">Dynamically add Ad Unit and refresh</button></p>
+  <p><button rel="content-2" onclick="dynamicDiv(this)">Dynamically add Ad Unit and refresh</button></p>
+  <p><button rel="content-3" onclick="dynamicDiv(this)">Dynamically add Ad Unit and refresh</button></p>
 </body>
 
 </html>
