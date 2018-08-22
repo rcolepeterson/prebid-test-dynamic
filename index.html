@@ -96,14 +96,28 @@
 
         pbjs.addAdUnits(adUnit2);   // won't be called except on button press
 
+/*
+ // function refreshBid() {
+    //   pbjs.que.push(function () {
+    //     pbjs.requestBids({
+    //       timeout: PREBID_TIMEOUT,
+    //       adUnitCodes: ['/19968336/header-bid-tag-0'],
+    //       bidsBackHandler: function () {
+    //         pbjs.setTargetingForGPTAsync(['/19968336/header-bid-tag-0']);
+    //         googletag.pubads().refresh([slot1]);
+    //       }
+    //     });
+    //   });
+    // }*/
 
         pbjs.requestBids({
+          timeout: PREBID_TIMEOUT,
           bidsBackHandler: function (bidResponses) {
             //initAdserver();
             pbjs.setTargetingForGPTAsync(['/19968336/header-bid-tag-0']);
             googletag.pubads().refresh([bottomSlot]);
           },
-          adUnitCodes: ['div-prebid-test-slot-2']  // the magic -- run the auction only for the new div
+          adUnitCodes: ['/19968336/header-bid-tag-0']  // the magic -- run the auction only for the new div
         });
         
         // Load GPT when timeout is reached.
