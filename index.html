@@ -16,11 +16,12 @@
     var pbjs = pbjs || {};
     pbjs.que = pbjs.que || [];
 
+    var divQueue = [];
+
     function dynamicDiv(content) {
       console.log('dynamic div v1.2');
       var bottomSlot;
-      var divId = content.getAttribute('rel');
-      console.log('dynamic div name', divId);
+      var divId = `${content.getAttribute('rel')}-${+new Date()}`;
       // dynamically create div
       var newDiv = document.createElement("div");
       newDiv.id = divId;
