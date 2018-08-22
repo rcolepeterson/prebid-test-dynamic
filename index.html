@@ -74,6 +74,10 @@
 
         googletag.display( "div-prebid-test-slot-2" );
 
+        googletag.cmd.push(function() {
+                    googletag.display('div-prebid-test-slot-2');
+                });
+
         googletag.pubads().enableSingleRequest();
         googletag.pubads().disableInitialLoad();
         googletag.pubads().enableSingleRequest();
