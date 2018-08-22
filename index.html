@@ -107,6 +107,9 @@
             //initAdserver();
             pbjs.setTargetingForGPTAsync(['/19968336/header-bid-tag-0']);
             googletag.pubads().refresh([bottomSlot]);
+
+            
+
           },
           adUnitCodes: ['div-prebid-test-slot-2']  // the magic -- run the auction only for the new div
         });
@@ -125,13 +128,13 @@
   <h5>Div-1</h5>
   <p><button onclick="refreshBid()">Refresh Ad Unit</button></p>
   <p><button onclick="dynamicDiv()">Dynamically add Ad Unit and refresh</button></p>
-  <div id='div-1'>
+  <!-- <div id='div-1'>
     <script type='text/javascript'>
       googletag.cmd.push(function () {
         googletag.display('div-1');
       });
     </script>
-  </div>
+  </div> -->
 
 </body>
 
